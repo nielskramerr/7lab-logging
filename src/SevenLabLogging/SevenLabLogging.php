@@ -10,9 +10,11 @@ class SevenLabLogging
 
     protected $client;
     protected $headers;
+    protected $config;
 
     public function __construct($config)
     {
+        $this->config = $config;
         $this->headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $config['token'],
@@ -32,31 +34,34 @@ class SevenLabLogging
      */
     public function captureException($exception, $data = null, $logger = null, $vars = null)
     {
-        if ($data === null) {
-            $data = array();
-        }
-        $message = $exception->getMessage();
-        if (empty($message)) {
-            $message = 'Not applicable';
-        }
-
-        if (method_exists($exception, 'getStatusCode')) {
-            $code = $exception->getStatusCode();
-        } else {
-            $code = $exception->getCode();
-            if ($code === 0) {
-                $code = 500;
+        if (!empty($config['token']) && !empty($config['uri'])) {
+            if ($data === null) {
+                $data = array();
             }
+            $message = $exception->getMessage();
+            if (empty($message)) {
+                $message = 'Not applicable';
+            }
+
+            if (method_exists($exception, 'getStatusCode')) {
+                $code = $exception->getStatusCode();
+            } else {
+                $code = $exception->getCode();
+                if ($code === 0) {
+                    $code = 500;
+                }
+            }
+
+            $data['type'] = 'Laravel';
+            $data['status_code'] = $code;
+            $data['error'] = $message;
+            $data['file'] = $exception->getFile();
+            $data['line'] = $exception->getLine();
+            $data['stacktrace'] = json_encode($exception->getTrace());
+
+            return $this->send($data);
         }
-
-        $data['type'] = 'Laravel';
-        $data['status_code'] = $code;
-        $data['error'] = $message;
-        $data['file'] = $exception->getFile();
-        $data['line'] = $exception->getLine();
-        $data['stacktrace'] = json_encode($exception->getTrace());
-
-        return $this->send($data);
+        return false;
     }
 
     protected function send($data)
