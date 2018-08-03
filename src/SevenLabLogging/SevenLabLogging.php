@@ -15,14 +15,16 @@ class SevenLabLogging
     public function __construct($config)
     {
         $this->config = $config;
-        $this->headers = [
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $config['token'],
-        ];
+        if (!empty($config['token']) && !empty($config['uri'])) {
+            $this->headers = [
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $config['token'],
+            ];
 
-        $this->client =  new Client([
-            'base_uri' => $config['uri'],
-        ]);
+            $this->client =  new Client([
+                'base_uri' => $config['uri'],
+            ]);
+        }
     }
 
     /**
@@ -34,7 +36,7 @@ class SevenLabLogging
      */
     public function captureException($exception, $data = null, $logger = null, $vars = null)
     {
-        if (!empty($config['token']) && !empty($config['uri'])) {
+        if (isset($this->headers)) {
             if ($data === null) {
                 $data = array();
             }
@@ -57,7 +59,7 @@ class SevenLabLogging
             $data['error'] = $message;
             $data['file'] = $exception->getFile();
             $data['line'] = $exception->getLine();
-            $data['stacktrace'] = json_encode($exception->getTrace());
+            $data['stacktrace'] = $exception->getTraceToString();
 
             return $this->send($data);
         }
