@@ -18,14 +18,14 @@
     },
     "autoload": {
         "psr-4": {
-            "7LabLogging\\": "src/"
+            "SevenLabLogging\\": "src/"
         }
     },
     "extra": {
         "laravel": {
-            "providers": ["7LabLogging\\7LabLoggingLaravelServiceProvider"],
+            "providers": ["SevenLabLogging\\SevenLabLoggingLaravelServiceProvider"],
             "aliases": {
-                "7LabLogging": "7LabLogging\\7LabLoggingFacade"
+                "SevenLabLogging": "SevenLabLogging\\SevenLabLoggingFacade"
             }
         }
     }
