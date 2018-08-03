@@ -13,4 +13,12 @@ After this run `composer require "7lab/7lab-logging:dev-master"` to install the 
 
 Then run `7 a vendor:publish` to publish it's config files.
 
+And add the following code to your `Exceptions/Handler.php` to catch the exceptions and send them to our dashboard
+
+```
+if (app()->bound('7lab-logging')) {
+    app('7lab-logging')->captureException($e);
+}
+```
+
 Don't forget to add the variables to your .env file and you're good to go ;)
