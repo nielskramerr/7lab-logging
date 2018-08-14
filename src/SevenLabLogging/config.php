@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'token' => env('7LAB_DASHBOARD_TOKEN'),
-    'uri' => env('7LAB_DASHBOARD_URI'),
+    'token' => env('SEVENLAB_DASHBOARD_TOKEN'),
+    'uri' => env('SEVENLAB_DASHBOARD_URI'),
 ];
