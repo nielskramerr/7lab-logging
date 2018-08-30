@@ -21,7 +21,7 @@ class SevenLabLogging
                 'Authorization' => 'Bearer ' . $config['token'],
             ];
 
-            $this->client =  new Client([
+            $this->client = new Client([
                 'base_uri' => $config['uri'],
             ]);
         }
@@ -59,7 +59,7 @@ class SevenLabLogging
             $data['error'] = $message;
             $data['file'] = $exception->getFile();
             $data['line'] = $exception->getLine();
-            $data['stacktrace'] = $exception->getTraceToString();
+            $data['stacktrace'] = $exception->getTraceAsString();
 
             return $this->send($data);
         }
@@ -70,7 +70,7 @@ class SevenLabLogging
     {
         return $this->client->post('logs', [
             'headers' => $this->headers,
-            'form_params' => $data
+            'form_params' => $data,
         ]);
     }
 }
