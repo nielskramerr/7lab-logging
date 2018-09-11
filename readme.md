@@ -11,13 +11,13 @@ Add the following repository to the composer.json of your project
 ```
 After this run `composer require "7lab/7lab-logging:dev-master"` to install the package
 
-Then run `7 a vendor:publish` to publish it's config files.
+Then run `7 artisan vendor:publish --provider="SevenLabLogging\SevenLabLoggingLaravelServiceProvider"` to publish it's config files.
 
 And add the following code to the `report` function in `Exceptions/Handler.php` to catch the exceptions and send them to our dashboard
 
 ```
 if (app()->bound('7lab-logging')) {
-    app('7lab-logging')->captureException($e);
+    app('7lab-logging')->captureException($exception);
 }
 ```
 

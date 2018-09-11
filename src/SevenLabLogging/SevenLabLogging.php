@@ -73,4 +73,12 @@ class SevenLabLogging
             'form_params' => $data,
         ]);
     }
+
+    public function sendFaildJob($data)
+    {
+        return $this->client->post('failed-job', [
+            'headers' => $this->headers,
+            'form_params' => $data,
+        ]);
+    }
 }

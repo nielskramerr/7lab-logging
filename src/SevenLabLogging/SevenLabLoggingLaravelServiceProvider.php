@@ -23,6 +23,7 @@ class SevenLabLoggingLaravelServiceProvider extends ServiceProvider
         // Publish the configuration file
         $this->publishes(array(
             __DIR__ . '/config.php' => config_path(static::$abstract . '.php'),
+            __DIR__ . '/failed-job-monitor-config.php' => config_path('failed-job-monitor.php'),
         ), 'config');
     }
 
