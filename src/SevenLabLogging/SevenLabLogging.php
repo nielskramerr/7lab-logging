@@ -59,7 +59,7 @@ class SevenLabLogging
             $data['error'] = $message;
             $data['file'] = $exception->getFile();
             $data['line'] = $exception->getLine();
-            $data['environment'] = app()->environment();
+            $data['env'] = app()->environment();
             $data['url'] = request()->fullUrl();
             $data['stacktrace'] = $exception->getTraceAsString();
 
