@@ -59,6 +59,8 @@ class SevenLabLogging
             $data['error'] = $message;
             $data['file'] = $exception->getFile();
             $data['line'] = $exception->getLine();
+            $data['environment'] = app()->environment();
+            $data['url'] = request()->fullUrl();
             $data['stacktrace'] = $exception->getTraceAsString();
 
             return $this->send($data);
@@ -79,7 +81,7 @@ class SevenLabLogging
         if (!isset($this->headers)) {
             return false;
         }
-        
+
         return $this->client->post('failed-job', [
             'headers' => $this->headers,
             'form_params' => $data,
